@@ -1,28 +1,40 @@
-/*
-脚本作者：佚名
-脚本日期：2023-11-18 19:13:23
-引用地址：
-*/
-var headers = $request.headers;
+#!name = 网易云音乐共享会员
+#!desc = 请严格填写数据，使用时需启用此插件，禁用则共享会员失效。点击下方链接查看使用说明。
+#!openUrl = https://gitlab.com/isous/loonresource/-/blob/main/Document/NeteaseCloudMusic/README.md
+#!author = 伟人
+#!tag = 共享会员
+#!system = iOS
+#!system_version = 
+#!loon_version = 3.2.1(372)
+#!homepage = https://gitlab.com/isous/loonresource/-/blob/main/README.md
+#!icon = https://gitlab.com/isous/loonresource/-/raw/main/Icon/NeteaseCloudMusic.png
+#!date = 2024-01-16 15:55:41
+#!input = 163_Cookie
+#!input = 163_User-Agent
+#!input = 163_MConfig-Info
 
-var ck = $persistentStore.read("163_Cookie");
-var ua = $persistentStore.read("163_User-Agent");
-var mi = $persistentStore.read("163_MConfig-Info");
+[Script]
+# 播放器会员皮肤
+http-request ^https:\/\/interface3?\.music\.163\.com\/eapi\/playermode\/ script-path = https://gitlab.com/isous/loonresource/-/raw/main/Script/NeteaseCloudMusic/NeteaseCloudMusic_shared_membership.js, tag = 播放器会员皮肤
 
-if (headers['Cookie'] != undefined) {
-    headers['Cookie'] = ck;
-} else {
-    headers['cookie'] = ck;
-}
-if (headers['User-Agent'] != undefined) {
-    headers['User-Agent'] = ua;
-} else {
-    headers['user-agent'] = ua;
-}
-if (headers['MConfig-Info'] != undefined) {
-    headers['MConfig-Info'] = mi;
-} else {
-    headers['mconfig-info'] = mi;
-}
+# 搜索结果会员歌曲
+http-request ^https:\/\/interface3?\.music\.163\.com\/eapi\/search\/complex\/(page|rec\/song\/get) script-path = https://gitlab.com/isous/loonresource/-/raw/main/Script/NeteaseCloudMusic/NeteaseCloudMusic_shared_membership.js, tag = 搜索结果会员歌曲
 
-$done({ 'headers': headers });
+# 播放器会员歌曲
+http-request ^https:\/\/interface3?\.music\.163\.com\/eapi\/song\/(chorus|enhance\/|play\/|type\/detail\/get) script-path = https://gitlab.com/isous/loonresource/-/raw/main/Script/NeteaseCloudMusic/NeteaseCloudMusic_shared_membership.js, tag = 播放器会员歌曲
+http-request ^https:\/\/interface3?\.music\.163\.com\/eapi\/(v1\/artist\/top\/song|v3\/discovery\/recommend\/songs) script-path = https://gitlab.com/isous/loonresource/-/raw/main/Script/NeteaseCloudMusic/NeteaseCloudMusic_shared_membership.js, tag = 播放器会员歌曲
+
+# 侧边栏会员等级
+http-request ^https:\/\/interface3?\.music\.163\.com\/eapi\/vipnewcenter\/app\/resource\/newaccountpage script-path = https://gitlab.com/isous/loonresource/-/raw/main/Script/NeteaseCloudMusic/NeteaseCloudMusic_shared_membership.js, tag = 侧边栏会员等级
+
+# 首页歌单会员歌曲
+http-request ^https?:\/\/interface3?\.music\.163\.com\/eapi\/(homepage\/|v6\/)?playlist\/ script-path = https://gitlab.com/isous/loonresource/-/raw/main/Script/NeteaseCloudMusic/NeteaseCloudMusic_shared_membership.js, tag = 首页歌单会员歌曲
+
+# 动态信息流
+http-request ^https:\/\/interface3?\.music\.163\.com\/eapi\/v3\/song\/detail script-path = https://gitlab.com/isous/loonresource/-/raw/main/Script/NeteaseCloudMusic/NeteaseCloudMusic_shared_membership.js, tag = 动态信息流
+
+# 会员认证
+http-request ^https?:\/\/interface3?\.music\.163\.com\/eapi\/vipauth\/app\/auth\/(soundquality\/)?query script-path = https://gitlab.com/isous/loonresource/-/raw/main/Script/NeteaseCloudMusic/NeteaseCloudMusic_shared_membership.js, tag = 会员认证
+  
+[Mitm]
+hostname = interface3.music.163.com, interface.music.163.com

@@ -12,6 +12,16 @@
 #!input = 163_Cookie
 #!input = 163_User-Agent
 #!input = 163_MConfig-Info
+/*
+使用说明
+
+1.在需要使用共享账号的iOS设备上安装网易云音乐共享会员插件；
+2.建议用临时禁用MitM over HTTP/2再抓包，否则HTTP/2下会有很多个Cookie存在，导致无法区分，抓完之后重新启用MitM over HTTP/2；
+3.从其他设备上抓包，并将得到的Cookie、User-Agent和MConfig-Info填写进网易云音乐共享会员插件的配置页面里对应的163_Cookie、163_User-Agent和163_MConfig-Info中；
+4.至此共享会员配置完毕。
+.需要注意的是，提供大会员Cookie的设备一旦将账号退出，则此Cookie失效，需要重新按照上面的步骤抓取填写；
+.如果出现问题，可以尝试清除163_Cookie、163_User-Agent和163_MConfig-Info的持久化缓存。
+*/
 
 [Script]
 # 播放器会员皮肤
